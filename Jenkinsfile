@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/sahilmor16/portfolio.git'
+                git branch: 'main', url: 'https://github.com/sahilmor16/portfolio.git'
             }
         }
 
@@ -18,7 +18,7 @@ pipeline {
 
         stage('Run Container') {
             steps {
-                sh 'docker run -d -p 80:80 portfolio-website'
+                bat 'docker run -d -p 80:80 portfolio-website'
             }
         }
     }
