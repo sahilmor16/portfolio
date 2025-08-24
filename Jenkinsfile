@@ -2,36 +2,23 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/<your-username>/<your-repo>.git'
+                git 'https://github.com/sahilmor16/portfolio.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("portfolio-website")
+                    docker.build('portfolio-website')
                 }
             }
         }
 
-        stage('Stop Previous Container') {
+        stage('Run Container') {
             steps {
-                script {
-                    // Stop and remove old container if running
-                    sh 'docker stop portfolio-website || true'
-                    sh 'docker rm portfolio-website || true'
-                }
-            }
-        }
-
-        stage('Run New Container') {
-            steps {
-                script {
-                    // Run latest container
-                    sh 'docker run -d -p 80:80 --name portfolio-website portfolio-website'
-                }
+                sh 'docker run -d -p 80:80 portfolio-website'
             }
         }
     }
